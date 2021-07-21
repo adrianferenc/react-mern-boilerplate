@@ -1,6 +1,6 @@
 require("dotenv").config();
 require("./config/database");
 
-// const User = requirer('./models/user')
+const User = require("./models/user");
 
-// let u
+let u;

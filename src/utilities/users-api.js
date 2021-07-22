@@ -6,6 +6,7 @@ export async function signUp(userData) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)
     });
+    console.log(res);
     if (res.ok) {
       return res.json();
     } else {

@@ -1,39 +1,46 @@
 import "./App.css";
 import { useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { getUser } from '../../utilities/users-service'
 import AuthPage from "../AuthPage/AuthPage";
-import NewOrderPage from "../NewOrderPage/NewOrderPage";
-import OrderHistoryPage from "../OrderHistoryPage/OrderHistoryPage";
+import LoginForm from "../LoginForm/LoginForm"
+import NewPuppyPage from "../NewPuppyPage/NewPuppyPage";
+import PuppyHistoryPage from "../PuppyHistoryPage/PuppyHistoryPage";
 import NavBar from "../../components/NavBar/NavBar";
 
-function App() {
-  const [user, setUser] = useState(null);
+export default function App() {
+  const [user, setUser] = useState(getUser());
+
+  const [auth, setAuth] = useState(true);
+
+
   return (
     <main className="App">
-
-
       {user ?
         <>
-          <NavBar />
+          <NavBar user={user} setUser = {setUser}/>
           <Switch>
-            <Route path="/orders/new">
-              <NewOrderPage />
+            <Route path="/puppies/new">
+              <NewPuppyPage />
             </Route>
 
-            <Route path="/orders">
-              <OrderHistoryPage />
+            <Route path="/puppies">
+              <PuppyHistoryPage />
             </Route>
 
             <Route>
-              <Redirect to="/orders" />
+              <Redirect to="/puppies" />
             </Route>
           </Switch>
         </>
         : (
-          <AuthPage />
+          <>
+          <button onClick = {()=> setAuth(!auth)}> {auth ? 'Login' : 'Sign Up'} </button>
+          
+          {auth && <AuthPage setUser = {setUser}/>}
+          {auth || <LoginForm setUser = {setUser}/>}
+          </>
         )}
     </main>
   );
 }
-
-export default App;
